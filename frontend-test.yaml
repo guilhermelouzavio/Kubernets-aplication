@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: php-redis
-        image: us-docker.pkg.dev/google-samples/containers/gke/gb-frontend:sample-public-image-v5-5be2e51
+        image: weaveworksdemos/front-end:sha-52dee65
         resources:
           requests:
             cpu: 100m
