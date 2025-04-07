@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata: 
+  name: svc-db-noticias
+spec: 
+  type: ClusterIP
+  selector:
+    app: db-noticias
+  ports: 
+    - port: 3306 #porta em que sera exposta para o serviço receber requisições e redireciona a chamada para porta 80
+
+      #caso nao seja declarado nodePort e targetport: O campo nodePort e targetPort serão definidos implicitamente.
+      #assumem a mesma porta 80

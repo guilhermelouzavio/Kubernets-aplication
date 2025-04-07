@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: db-noticias
+  labels:
+    app: db-noticias
+spec: 
+  containers:
+    - name: db-noticias-container
+      image: aluracursos/mysql-db:1
+      ports: 
+        - containerPort: 3306
+      envFrom:
+        - configMapRef:
+            name: db-configmap
+
+      #no caso abaixo precisa referenciar chave a chave e o arquivo fica extenso
+      # env:
+      #   - name: MYSQL_ROOT_PASSWORD
+      #     valueFrom: 
+      #       configMapKeyRef:
+      #         name: db-configmap
+      #         key: MYSQL_ROOT_PASSWORD
+      # aqui é o modo de declaração direto no arquivo do pod(nao recomendavel fazer isso)
+      # env: 
+      #   - name: "MYSQL_ROOT_PASSWORD"
+      #     value: "q1w2e3r4"
+      #   - name: "MYSQL_DATABASE"
+      #     value: "empresa"
+      #   - name: "MYSQL_PASSWORD"
+      #     value: "q1w2e3r4"
+        

@@ -1,0 +1,13 @@
+apiVersion: storage.ks8.io/v1
+kind: StorageClass
+metadata: 
+  name: slow
+provisioner: kubernets.io/gce-pd
+parameters: 
+  type: pd-standard
+  fstype: ext4
+  replication-type: none
+
+
+#atraves do storage class e do persistent-volume-claim, voce consegue criar dinamicamente, o persistent-volume e o disco
+# Storage Classes fornecem dinamismo para criação de PesristentVolumes conforme demanda.

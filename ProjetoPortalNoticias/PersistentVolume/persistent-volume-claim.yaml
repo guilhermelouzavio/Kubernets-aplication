@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-1
+spec: 
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: standard
+
+  #o bind do pvc com o pv é feito através da definição de igualdade, 
+  #os dois precisam ter o mesmo modo de acesso e a mesma capacidade.

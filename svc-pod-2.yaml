@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata: 
+  name: svc-pod-2
+spec: 
+  type: ClusterIP
+  selector:
+    app: segundo-pod
+  ports: 
+    - port: 9000 #porta em que sera exposta para o serviço receber requisições e redireciona a chamada para porta 80
+      targetPort: 80 #porta para onde o serviço vai despachar a requisição em outro serviço ou pod
+
+      #caso nao seja declarado nodePort e targetport: O campo nodePort e targetPort serão definidos implicitamente.
+      #assumem a mesma porta 80

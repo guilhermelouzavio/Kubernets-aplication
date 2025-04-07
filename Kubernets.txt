@@ -1,0 +1,136 @@
+Nesta aula, aprendemos:
+
+Para que serve o Kubernetes
+Como o Kubernetes funciona
+Quais são os principais componentes da ferramenta
+O que é, e para o que serve a API
+O que é, e para o que serve o kubectl
+
+Nesta aula, aprendemos:
+
+O que é e para que serve um Pod
+Como utilizar o kubectl para criar um Pod
+Como criar um pod de maneira imperativa
+As desvantagens de criar recursos de maneira imperativa
+As vantagens de criar recursos de maneira declarativa
+Como funcionam as diferentes versões da API
+
+Nesta aula, aprendemos:
+
+O que são e para que servem os Services
+Como garantir estabilidade de IP e DNS
+Como criar um Service
+Labels são responsáveis por definir a relação Service x Pod
+Um ClusterIP funciona apenas dentro do cluster
+Um NodePort expõe Pods para dentro e fora do cluster
+Um LoadBalancer também é um NodePort e ClusterIP
+Um LoadBalancer é capaz de automaticamente utilizar um balanceador de carga de um cloud provider
+
+Nesta aula, aprendemos:
+
+Como escolher o melhor tipo de Service para cada situação
+Como comunicar diversos pods através de um Service
+Devemos definir informações necessárias para inicializações de Pod
+
+Nesta aula, aprendemos:
+
+Como definir variávies de ambiente através do campo env
+Como desacoplar configurações e definições com um ConfigMap
+Como criar e definir um ConfigMap
+Como importar variáveis de ambiente individualmente com um ConfigMap
+Como importar todo um ConfigMap com o campo envFrom
+
+Nesta aula, aprendemos:
+A manter pods em execução com ReplicaSets e Deployments através de arquivos declarativos
+A fazer o controle de versionamento de Deployments com o kubectl
+Como utilizar os comandos kubectl rollout para ver e alterar as versões de Deployments.
+Que ReplicaSets são criados automaticamente dentro de um Deployment
+Que Pods normalmente são criados através de Deployments, e não individualmente.
+
+O que aprendemos nessa aula:
+
+Como criar Volumes através de arquivos de definição
+Volumes persistem dados de containers dentro de pods e permitem o compartilhamento de arquivo dentro dos pods
+Que Volumes possuem ciclo de vida independente dos containers, porém, vinculados aos pods
+Como criar PersistentVolumes através de arquivos de definição
+PersistentVolumes persistem dados de pods como um todo
+PersistentVolumes possuem ciclo de vida independente de quaisquer outros recursos, inclusive pods
+Como criar e para que servem os PersistentVolumeClaims
+Que precisamos de um PersistentVolumeClaim para acessar um PersistentVolume
+
+O que aprendemos nessa aula:
+
+Como criar PersistentVolumes dinamicamente com StorageClasses
+StorageClasses também são capazes de criar discos de armazenamento
+O que é um StatefulSet
+Como utilizar StatefulSets para garantir unicidade de Pods durante reinícios e atualizações
+Clusters possuem StorageClasses "default" e podem ser usados automaticamente se não definirmos qual será utilizado
+
+O que aprendemos nessa aula:
+
+O Kubernetes nem sempre tem como saber se a aplicação está saudável
+Podemos criar critérios para definir se a aplicação está saudável através de probes
+Como criar LivenessProbes com o campo livenessProbe
+LivenessProbes podem fazer a verificação em diferentes intervalos de tempo via HTTP
+Como criar ReadinessProbes com o campo readinessProbe
+ReadinessProbes podem fazer a verificação em diferentes intervalos de tempo via HTTP
+LivenessProbes são para saber se a aplicação está saudável e/ou se deve ser reiniciada, enquanto ReadinessProbes são para saber se a aplicação já está pronta para receber requisições depois de iniciar
+Além do HTTP, também podemos fazer verificações via TCP
+
+
+Guilherme, parabéns pela dedicação aos estudos! Você trouxe pontos importantes sobre a gestão de aplicações no Kubernetes, como a confiabilidade, escalabilidade e estabilidade. Além disso, você mencionou a resiliência em situações de falha, o que é fundamental para garantir que a aplicação continue funcionando mesmo diante de problemas. No entanto, também vimos que reiniciar a aplicação incessantemente através de ReplicaSets ou Deployments nem sempre resolve o problema. É importante entender que, em algumas situações, pode ser necessário investigar a causa raiz da falha em vez de apenas reiniciar a aplicação. Além disso, aprendemos sobre os HorizontalPodAutoscalers, que são responsáveis por definir as circunstâncias em que escalaremos nossa aplicação automaticamente, o que é crucial para manter a performance em diferentes cargas de trabalho. Também discutimos como definir o uso de recursos de cada container em um Pod e a importância de um servidor de métricas para monitorar esses recursos. Por fim, aprendemos a utilizar um HorizontalPodAutoscaler através de arquivos de definição, o que permite uma configuração mais flexível e automatizada do escalonamento da aplicação. Continue estudando e praticando!
+
+-------------------------------------------------------------------
+No último vídeo, definimos como variável de ambiente o endereço do sistema de notícias para o nosso portal de notícias conseguir acessá-lo. Fizemos isso utilizando o IP do node seguido da porta exposta pelo nosso NodePort, nesse caso localhost:30001.
+
+Caso tivéssemos múltiplos nodes em nosso cluster, tudo funcionaria da mesma maneira, pois as portas mapeadas pelo NodePort são compartilhadas entre os IP's de todos os nodes.
+-------------------------------------------------------------------
+
+Os comandos necessários para a instalação e inicialização do cluster no Linux podem ser obtidos abaixo:
+
+Primeiro para o kubectl:
+
+sudo apt-get install curl -y
+curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x ./kubectl
+sudo mv ./kubectl /usr/local/bin/kubectl
+
+Agora para o minikube:
+
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/v1.12.1/minikube-linux-amd64 \ && chmod +x minikube
+sudo install minikube /usr/local/bin/
+
+
+--------------------------------------------------------------------
+Criando o primeiro POD
+
+kubectl run nginx-pod --image=nginx:latest // cria o pod de forma simples
+kubectl get pods --watch //comando para listar os pods criados, -- watch verfica em tempo real a mudança no pod
+kubectl describe pod nginx-pod
+kubectl edit pod nginx-pod
+
+kubectl apply -f .\primeiro-pod.yaml // cria o pod de forma declarativa acessando o arquivo com os detalhes da criação
+kubectl delete pod nginx-pod // deletar Pods que foram criados de forma imperativa.
+kubectl delete -f .\primeiro-pod.yaml
+
+
+kubectl exec -it portal-noticias --bash
+
+kubetctl get pods -o wide // exibe os pods com informações de ip e mais detalhadas
+
+kubectl get svc (buscar informações de services)
+
+kubectl get configmap(buscar informações de configmap)
+
+Para que o service utilize outra porta para ouvir e outra para despacha precisa configurar o targetPort para saber para onde o serviço precisa despachar a requisição
+
+ kubectl rollout history deployment nginx-deployment // visualizar as alterações do deployment
+
+kubectl annotate deployment nginx-deployment kubernetes.io/change-cause="definindo a imagem com a versao lastest" //tipo um git commit para deixar evidente o que foi alterado no history
+
+kubectl rollout undo deployment nginx-deployment --to-revision=2 // dar rollbakc de versão
+
+kubectl delete deployment nginx-deployment //delete normal deployment
+
+kubectl delete -f ./portal-noticias-replicaset.yaml //deletar por arquivo
+
