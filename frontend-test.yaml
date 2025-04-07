@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: php-redis
-        image: weaveworksdemos/front-end:sha-52dee65
+        image: nginx
         resources:
           requests:
             cpu: 100m
